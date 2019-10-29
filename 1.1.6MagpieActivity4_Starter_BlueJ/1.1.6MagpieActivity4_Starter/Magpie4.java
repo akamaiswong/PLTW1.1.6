@@ -53,6 +53,16 @@ public class Magpie4
 		{
 			response = transformIWantToStatement(statement);
 		}
+		
+		else if (findKeyword(statement, "I want", 0) >= 0) 
+		{
+		    response = transformIWantStatement(statement);
+		  }
+		  
+		else if (findKeyword(statement, "I", 0) >= 0)
+		{
+		    response=transformIYouStatement(statement);
+		  }
 
 		else
 		{
@@ -120,6 +130,40 @@ public class Magpie4
 		
 		String restOfStatement = statement.substring(psnOfYou + 3, psnOfMe).trim();
 		return "What makes you think that I " + restOfStatement + " you?";
+	}
+	
+	
+	private String transformIWantStatement (String statement) 
+	{
+	    statement = statement.trim();
+		String lastChar = statement.substring(statement
+				.length() - 1);
+		if (lastChar.equals("."))
+		{
+			statement = statement.substring(0, statement
+					.length() - 1);
+		}
+		int psn = findKeyword (statement, "I want ", 0);
+		String restOfStatement = statement.substring(psn + 7).trim();
+	        return "Would you be really happy if you had " + restOfStatement + "?";
+	}
+	
+	private String transformIYouStatement (String statement) 
+	{
+	    statement = statement.trim();
+	    String lastChar = statement.substring(statement
+				.length() - 1);
+		if (lastChar.equals("."))
+		{
+			statement = statement.substring(0, statement
+					.length() - 1);
+		}
+		
+		int psnOfYou = findKeyword (statement, "you", 5);
+		int psnOfI = findKeyword (statement, "I", psnOfYou + 2);
+		
+		String restOfStatement = statement.substring(psnOfYou + 2, psnOfI + 10).trim();
+		return "Why do you " + restOfStatement + " me?";
 	}
 	
 	
